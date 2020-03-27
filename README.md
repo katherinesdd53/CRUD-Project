@@ -1,68 +1,85 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# CRUD Project
 
-## Available Scripts
+A simple CRUD project using React, Node.js and MySQL.
 
-In the project directory, you can run:
+## Getting Started
 
-### `npm start`
+*This project is aimed for beginner’s or those who want to create a CRUD app using the technologies mentioned above.*
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Prerequisites
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+Your local machine should have the following programs downloaded:
+1. Sublime (or a text editor/IDE of your choosing)
+2. MySQL Workbench (visual tool for MySQL)
+3. Postman (API development environment)
 
-### `npm test`
+## Installing
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+#### PART 1
 
-### `npm run build`
+Before downloading this repo, make sure that you have MySQL workbench and Postman downloaded. To download MySQL, you can go [here](https://dev.mysql.com/downloads/installer/) if you have a Windows computer. For other operating systems, download the community server [here](https://dev.mysql.com/downloads/mysql/) and then the workbench [here](https://dev.mysql.com/downloads/workbench/). 
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Once MySQL is downloaded, download Postman [here](https://www.postman.com/downloads/).
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+To setup the database for the app, follow the instructions from this [link](https://www.edureka.co/blog/node-js-mysql-tutorial/). I advise to read the article but if you want to get straight to creating, skip to the “Creating a CRUD Application using Node.js and MySQL” title.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Once you are done with the tutorial, you should make the following changes on script.js:
 
-### `npm run eject`
+**Add this CORS function below your bodyparser:**
+```
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Credentials", "true");
+  res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT,DELETE");
+  res.header("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
+  next();
+});
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+**For the post function, stringify the response inside the foreach method, after the if:**
+```
+res.send(JSON.stringify(element[0].learner_id));
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+**For the put function, send this instead inside the if method:**
+```
+rows.forEach(element => {
+  if(element.constructor == Array) {
+    res.send(JSON.stringify(element[0].learner_id));
+  }; 
+});
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+**For the delete function, change it to this:**
+```
+res.send(JSON.stringify(req.params.id));
+```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+#### PART 2
 
-## Learn More
+Download this repo in the same directory as the server side file (the file from Part 1). Once downloaded, open terminal (or command prompt) and open two tabs, one for the server and one for the frontend. For tab 1, go to the file containing the server code and run this command:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```
+nodemon script.js
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+For tab 2, go to the file containing this repo and run this command:
 
-### Code Splitting
+```
+npm start
+```
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+Now, you can see how the app works!
 
-### Analyzing the Bundle Size
+## Built With
+* React - [Web Framework](https://reactjs.org/)
+* Node.js - [Runtime Environment](https://nodejs.org/en/)
+* MySQL - [Relational Database Management System](https://www.mysql.com/)
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+## Author
+* Katherine Suazo - [LinkedIn](https://www.linkedin.com/in/katherinesdd53/)
 
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+## Acknowledgments
+* Rachel (Rocky) Fine at Etsy
+* Swatee Chand at Edureka
+* [Billie Thompson](https://purplebooth.co.uk/about/me/)
